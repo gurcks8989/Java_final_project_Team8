@@ -16,6 +16,7 @@ public class Game extends JPanel implements KeyListener, Runnable {
 	private Thread game ;
 	private boolean running ;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB) ;
+	private GameBoard board;
 	
 	private long startTime ;
 	private long elapsed ;
@@ -25,17 +26,20 @@ public class Game extends JPanel implements KeyListener, Runnable {
 		setFocusable(true) ;
 		setPreferredSize(new Dimension(WIDTH, HEIGHT)) ;
 		addKeyListener(this) ;
+		
+		board = new GameBoard(WIDTH/2 - GameBoard.BOARD_WIDTH/2, HEIGHT - GameBoard.BOARD_HEIGHT - 10);
 	}
 	
 	private void update() {
-		
+		board.update();
+		Keyboard.update();
 	}
 	
 	private void render() {
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setColor(Color.white) ;
 		g.fillRect(0, 0, WIDTH, HEIGHT) ;
-		// render board
+		board.render(g);
 		g.dispose() ;
 		
 		Graphics2D g2d = (Graphics2D) getGraphics() ;
@@ -106,23 +110,15 @@ public class Game extends JPanel implements KeyListener, Runnable {
 		running = false ;
 		System.exit(0);
 	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		Keyboard.keyPressed(e);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		Keyboard.keyReleased(e);
 	}
 
 	@Override
@@ -130,19 +126,5 @@ public class Game extends JPanel implements KeyListener, Runnable {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 	
 }
