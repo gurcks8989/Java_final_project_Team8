@@ -14,5 +14,8 @@ public class Start {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		game.start();
+		
+		Music music = new Music("music.mp3",true);
+		music.start();
 	}
 }
