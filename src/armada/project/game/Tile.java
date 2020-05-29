@@ -94,57 +94,34 @@ public class Tile {
 	
 	private void drawImage() {
 		Graphics2D g = (Graphics2D) tileImage.getGraphics();
-		if (value == 2) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0x000000);
-		}
-		else if (value == 4) {
-			background = new ImageIcon("seed/2.png").getImage();
-			text = new Color(0x000000);
-		}
-		else if (value == 8) {
-			background = new ImageIcon("seed/3.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 16) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 32) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 64) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 128) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 256) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 512) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 1024) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if (value == 2048) {
-			background = new ImageIcon("seed/1.png").getImage();
-			text = new Color(0xffffff);
-		}
-		else if(value == 0){
+		if (value == 2)
+			background = new ImageIcon("seed/반짝이들.png").getImage();
+		else if (value == 4)
+			background = new ImageIcon("seed/프로미들.png").getImage();
+		else if (value == 8)
+			background = new ImageIcon("seed/소망이들.png").getImage();
+		else if (value == 16)
+			background = new ImageIcon("seed/드리미.png").getImage();
+		else if (value == 32)
+			background = new ImageIcon("seed/기쁨이.png").getImage();
+		else if (value == 64)
+			background = new ImageIcon("seed/동행이들.png").getImage();
+		else if (value == 128)
+			background = new ImageIcon("seed/화평이들.png").getImage();
+		else if (value == 256)
+			background = new ImageIcon("seed/은혜들.png").getImage();
+		else if (value == 512)
+			background = new ImageIcon("seed/안민규교수님.png").getImage();
+		else if (value == 1024)
+			background = new ImageIcon("seed/총장님.png").getImage();
+		else if (value == 2048)
+			background = new ImageIcon("seed/한동대학교.png").getImage();
+		else if(value == 0)
 			background = new ImageIcon("seed/begin.png").getImage();
-		}
-		else{
+		else
 			background = new ImageIcon("seed/begin.png").getImage();
-			text = new Color(0xffffff);
-		}
+
+		text = new Color(0x000000);
 		g.setColor(new Color(0, 0, 0, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
@@ -152,15 +129,9 @@ public class Tile {
 		g.fillRoundRect(0, 0, WIDTH, HEIGHT, ARC_WIDTH, ARC_HEIGHT);
 
 		g.setColor(text);
-
-		if (value <= 64) {
-			font = Game.main.deriveFont(36f);
-			g.setFont(font);
-		}
-		else {
-			font = Game.main;
-			g.setFont(font);
-		}
+		
+		font = new Font("SansSerif", Font.PLAIN, 1);
+		g.setFont(font);
 
 		int drawX = WIDTH / 2 - DrawUtils.getMessageWidth("" + value, font, g) / 2;
 		int drawY = HEIGHT / 2 + DrawUtils.getMessageHeight("" + value, font, g) / 2;

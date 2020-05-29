@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -31,6 +32,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 	private GuiScreen screen;
         private GameBoard board;
 	public Game() {
+		setLayout(new GridLayout(8, 1));
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		addKeyListener(this);
