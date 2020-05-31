@@ -23,6 +23,10 @@ public class PlayPanel extends GuiPanel {
 	private String timeF;
 	private String bestTimeF;
 	// Game Over
+	private GuiButton undo;
+	private GuiButton clear;
+	private GuiButton restart;
+	private GuiButton menu;
 	private GuiButton tryAgain;
 	private GuiButton mainMenu;
 	private GuiButton screenShot;
@@ -35,11 +39,43 @@ public class PlayPanel extends GuiPanel {
 	private Font gameOverFont;
 	private boolean screenshot;
         boolean newGame;
+
+    public static final int Y = 90;  
+    public static final int WIDTH = 85;        
+    public static final int HEIGHT = 55;
+    
 	public PlayPanel() 
         {
 		scoreFont = Game.main.deriveFont(24f);
 		gameOverFont = Game.main.deriveFont(70f);
 		board = new GameBoard(Game.WIDTH / 2 - GameBoard.BOARD_WIDTH / 2, Game.HEIGHT - GameBoard.BOARD_HEIGHT - 20);
+		undo = new GuiButton(30, Y, WIDTH, HEIGHT) ;
+		clear = new GuiButton(145, Y, WIDTH, HEIGHT) ;
+		restart = new GuiButton(260, Y, WIDTH, HEIGHT) ;
+		menu = new GuiButton(375, Y, WIDTH, HEIGHT) ;
+		undo.setText("Undo");
+		clear.setText("Clear");
+		restart.setText("Restart");
+		menu.setText("Menu");
+		undo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		clear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		restart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		menu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	            newGame=true;
+	            GuiScreen.getInstance().setCurrentPanel("Menu");
+			}
+		});
+		
 		scores = board.getScores();
 		info = new BufferedImage(Game.WIDTH, 200, BufferedImage.TYPE_INT_RGB);
 		mainMenu = new GuiButton(Game.WIDTH / 2 - largeButtonWidth / 2, 450, largeButtonWidth, buttonHeight);
@@ -53,8 +89,8 @@ public class PlayPanel extends GuiPanel {
 		});
 		mainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                                newGame=true;
-                                GuiScreen.getInstance().setCurrentPanel("Menu");
+	            newGame=true;
+	            GuiScreen.getInstance().setCurrentPanel("Menu");
 			}
 		});
 	}
@@ -73,10 +109,10 @@ public class PlayPanel extends GuiPanel {
 		g2d.drawString("" + scores.getCurrentScore(), 30, 40);
 		g2d.setColor(Color.red);
                 g2d.drawString("Best: " + scores.getCurrentTopScore(), Game.WIDTH - DrawUtils.getMessageWidth("Best: " + scores.getCurrentTopScore(), scoreFont, g2d) - 20, 40);
-                g2d.drawString("Fastest: " + bestTimeF, Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 70);
+                g2d.drawString("Fastest: " + bestTimeF, Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 75);
 		g2d.setColor(Color.black);
 		
-                g2d.drawString("Time: " + timeF, 30, 70);
+                g2d.drawString("Time: " + timeF, 30, 75);
 		g2d.dispose();
 		g.drawImage(info, 0, 0, null);
 	}
@@ -112,6 +148,10 @@ public class PlayPanel extends GuiPanel {
 	public void render(Graphics2D g) {
 		drawGui(g);
 		board.render(g);
+		add(undo);
+		add(clear);
+		add(restart);
+		add(menu);
 		if (screenshot) {
 			BufferedImage bi = new BufferedImage(Game.WIDTH, Game.HEIGHT, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2d = (Graphics2D) bi.getGraphics();

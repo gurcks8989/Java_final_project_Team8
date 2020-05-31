@@ -54,8 +54,8 @@ public class GameBoard {
 		scores.setBestTime(lBoard.getFastestTime());
 		scores.setCurrentTopScore(lBoard.getHighScore());
 		if(scores.newGame()){
-			start();
-			scores.saveGame();
+			start() ;
+			scores.saveGame() ;
 		}
 		else{
 			for(int i = 0; i < scores.getBoard().length; i++){
