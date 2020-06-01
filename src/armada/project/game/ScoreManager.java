@@ -11,8 +11,11 @@ public class ScoreManager {
 	// CURRENT SCORES
 	private int currentScore;
 	private int stackScore;
+	private int stackScore2;
+	private int stackScore3;
+	
 	private int currentTopScore;
-        public static long difficulty;
+    public static long difficulty;
 	private long time;
 	private long startingTime;
 	private long bestTime;
@@ -170,6 +173,8 @@ public class ScoreManager {
 	}
 
 	public void setCurrentScore(int currentScore) {
+		stackScore3 = stackScore2;
+		stackScore2 = stackScore;
 		stackScore = this.currentScore ;
 		this.currentScore = currentScore;
 	}
@@ -216,5 +221,7 @@ public class ScoreManager {
     
     public void undo() {
     	currentScore = stackScore ;
+    	stackScore = stackScore2;
+    	stackScore2 = stackScore3;
     }
 }

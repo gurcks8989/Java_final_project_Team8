@@ -25,7 +25,8 @@ public class Start {
 		     l.setIcon(new ImageIcon(m)); //레이블에 이미지 표시
 		}
 		catch(Exception e) {}
-
+		
+		
 		f.setVisible(true);
 		f.pack(); //프레임의 크기를 자동으로 설정해줍니다.
 		//--------------------------------------------------------------------------
@@ -39,7 +40,7 @@ public class Start {
 		window.setVisible(true);
 		game.start();
 		
-		//Music music = new Music("music.mp3",true);
-		//music.start();
+		Music music = new Music("music.mp3",true);
+		music.start();
 	}
 }

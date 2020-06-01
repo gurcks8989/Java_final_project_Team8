@@ -3,8 +3,10 @@ package armada.project.game;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+
+import javax.swing.ImageIcon;
+
 import javazoom.jl.player.Player;
-import sun.applet.Main;
 
 public class Music extends Thread {
 
@@ -17,7 +19,7 @@ public class Music extends Thread {
 	public Music(String name, boolean isLoop) {
 		try {
 			this.isLoop = isLoop;
-			file = new File(Main.class.getResource("../../music/"+ name).toURI());
+			file = new File(Start.class.getResource("../../../music/"+ name).toURI());
 			fis = new FileInputStream(file);
 			bis = new BufferedInputStream(fis);
 			player = new Player(bis);

@@ -3,7 +3,9 @@ package armada.project.game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import armada.project.gui.GuiScreen;
@@ -30,7 +33,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private GuiScreen screen ;
     private GameBoard board ;
-    
+   
 	public Game() {
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -43,6 +46,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
                 screen.add("Difficulty",new DifficultyPanel());
 		screen.add("Leaderboards", new LeaderboardsPanel());
 		screen.setCurrentPanel("Menu");
+
 	}
 
 	private void update() {
@@ -62,7 +66,7 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 		g2d.drawImage(image, 0, 0, null);
 		g2d.dispose();
 	}
-
+	
 	@Override
 	public void run() {
 		int fps = 0, updates = 0;

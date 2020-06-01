@@ -20,6 +20,8 @@ public class GameBoard {
 	private final int startingTiles = 2;
 	private Tile[][] board;	
 	private Tile[][] stack;
+	private Tile[][] stack2;
+	private Tile[][] stack3;
 	private boolean dead;
 	private boolean won;
 	private boolean shuffle;
@@ -47,6 +49,9 @@ public class GameBoard {
 		this.y = y;
 		board = new Tile[ROWS][COLS];
 		stack = new Tile[ROWS][COLS];
+		stack2 = new Tile[ROWS][COLS];
+		stack3 = new Tile[ROWS][COLS];
+		
 		gameBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		createBoardImage();
 		lBoard = Leaderboards.getInstance();
@@ -276,6 +281,8 @@ public class GameBoard {
 
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
+				stack3[row][col] = stack2[row][col];
+				stack2[row][col] = stack[row][col];
 				stack[row][col] = board[row][col];
 			}
 		}
@@ -498,6 +505,8 @@ public class GameBoard {
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				board[row][col] = stack[row][col];
+				stack[row][col] = stack2[row][col];
+				stack2[row][col] = stack3[row][col];
 				if(board[row][col] == null) continue;
 				int value = board[row][col].getValue() ;
 				if(max < value)
@@ -516,5 +525,7 @@ public class GameBoard {
 			}
 		}
 	}
+	
+	
 }
 
