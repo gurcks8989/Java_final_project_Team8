@@ -18,33 +18,35 @@ public class GameBoard {
 	public static final int COLS = 4;
 
 	private final int startingTiles = 2;
-	private Tile[][] board;
+	private Tile[][] board;	
+	private Tile[][] stack;
 	private boolean dead;
 	private boolean won;
 	private boolean shuffle;
-        private BufferedImage gameBoard;
+    private BufferedImage gameBoard;
 	private int x;
 	private int y;
-        private int a;
-        private int b;
+    private int a;
+    private int b;
 	private static int SPACING = 10;
 	public static int BOARD_WIDTH = (COLS + 1) * SPACING + COLS * Tile.WIDTH;
 	public static int BOARD_HEIGHT = (ROWS + 1) * SPACING + ROWS * Tile.HEIGHT;
-        private static long time;
-        private long timeL;
+    private static long time;
+    private long timeL;
 	private long elapsedMS;
 	private long startTime;
 	private boolean hasStarted;
         
 	private ScoreManager scores;
 	private Leaderboards lBoard;
-        
+    private int max = 0;
 	private int saveCount = 0;
 
 	public GameBoard(int x, int y) {
 		this.x = x;
 		this.y = y;
 		board = new Tile[ROWS][COLS];
+		stack = new Tile[ROWS][COLS];
 		gameBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		createBoardImage();
 		lBoard = Leaderboards.getInstance();
@@ -142,11 +144,11 @@ public class GameBoard {
 			scores.setCurrentTopScore(scores.getCurrentScore());
 		}
                 
-                int count=0;
+        int count=0;
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				Tile current = board[row][col];
-                                if (current == null) continue;
+                if (current == null) continue;
 				current.update();
 				resetPosition(current, row, col);
 				if (current.getValue() == 2048) {
@@ -230,6 +232,7 @@ public class GameBoard {
 	}
 
 	private boolean move(int row, int col, int horizontalDirection, int verticalDirection, int direction) {
+		
 		boolean canMove = false;
 		Tile current = board[row][col];
 		if (current == null) return false;
@@ -253,7 +256,11 @@ public class GameBoard {
 				board[newRow - verticalDirection][newCol - horizontalDirection] = null;
 				board[newRow][newCol].setSlideTo(new Point(newRow, newCol));
 				board[newRow][newCol].setCombineAnimation(true);
-				scores.setCurrentScore(scores.getCurrentScore() + board[newRow][newCol].getValue());
+
+				int value = board[newRow][newCol].getValue() ;
+				if(max < value)
+					max = value ;
+				scores.setCurrentScore(scores.getCurrentScore() + value);
 			}
 			else {
 				move = false;
@@ -267,6 +274,12 @@ public class GameBoard {
 		int horizontalDirection = 0;
 		int verticalDirection = 0;
 
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				stack[row][col] = board[row][col];
+			}
+		}
+		
 		if (direction == LEFT) {
 			horizontalDirection = -1;
 			for (int row = 0; row < ROWS; row++) {
@@ -310,7 +323,6 @@ public class GameBoard {
 		else {
 			System.out.println(direction + " is not a valid direction.");
 		}
-
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				Tile current = board[row][col];
@@ -320,7 +332,7 @@ public class GameBoard {
 		}
 
 		if (canMove) {
-                        spawnRandom();
+            spawnRandom();
 			setDead(checkDead());
 		}
 	}
@@ -383,7 +395,7 @@ public class GameBoard {
 			int col = location % COLS;
 			Tile current = board[row][col];
 			if (current == null) {
-                                int value = random.nextInt(10) < 9 ? 2:4;
+                int value = random.nextInt(10) < 9 ? 2:4;
 				Tile tile = new Tile(value, getTileX(col), getTileY(row));
 				board[row][col] = tile;
 				notValid = false;
@@ -458,12 +470,12 @@ public class GameBoard {
 		this.y = y;
 	}
         
-        public static long getTime() {
-            return time;
-        }
-        public static void setTime(long time) {
-            GameBoard.time = time;
-        }
+	public static long getTime() {
+	    return time;
+	}
+	public static void setTime(long time) {
+	    GameBoard.time = time;
+	}
         
 	public boolean isWon() {
 		return won;
@@ -471,7 +483,7 @@ public class GameBoard {
 
 	public void setWon(boolean won) {
 		if(!this.won && won && !dead){ 
-			lBoard.addTime(scores.getTime());
+			lBoard.addTime(scores.getTime());	
 			lBoard.saveScores();
 		}
 		this.won = won;
@@ -480,5 +492,29 @@ public class GameBoard {
 	public ScoreManager getScores(){
 		return scores;
 	}
-        
+ 
+	public void undo() {
+		int max = 0 ;
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				board[row][col] = stack[row][col];
+				if(board[row][col] == null) continue;
+				int value = board[row][col].getValue() ;
+				if(max < value)
+					max = value ;
+			}
+		}
+		this.max = max ;
+	}
+	
+	public void clear() {
+		for (int row = 0; row < ROWS; row++) {
+			for (int col = 0; col < COLS; col++) {
+				if(board[row][col] == null) continue;
+				if(board[row][col].getValue() < max)
+					board[row][col] = null ;
+			}
+		}
+	}
 }
+

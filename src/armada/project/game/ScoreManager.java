@@ -10,6 +10,7 @@ public class ScoreManager {
 
 	// CURRENT SCORES
 	private int currentScore;
+	private int stackScore;
 	private int currentTopScore;
         public static long difficulty;
 	private long time;
@@ -26,8 +27,8 @@ public class ScoreManager {
 	public boolean newGame;
         
 	public ScoreManager(GameBoard gBoard) {
-        	try {
-			filePath = new File("").getAbsolutePath();
+    	try {
+    		filePath = new File("").getAbsolutePath();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,8 +64,8 @@ public class ScoreManager {
 			writer.newLine();
 			writer.write("" + 0);
 			writer.newLine();
-                        writer.write("" + 300000);
-                        writer.newLine();
+            writer.write("" + 300000);
+            writer.newLine();
 			for (int row = 0; row < GameBoard.ROWS; row++) {
 				for (int col = 0; col < GameBoard.COLS; col++) {
 					if(row == GameBoard.ROWS - 1 && col == GameBoard.COLS - 1){
@@ -92,11 +93,12 @@ public class ScoreManager {
 			writer.write("" + currentTopScore);
 			writer.newLine();
 			writer.write("" + time);
+			time = 0 ;
 			writer.newLine();
 			writer.write("" + bestTime);
 			writer.newLine();
-                        writer.write(""+ difficulty);
-                        writer.newLine();
+            writer.write(""+ difficulty);
+            writer.newLine();
 			for (int row = 0; row < GameBoard.ROWS; row++) {
 				for (int col = 0; col < GameBoard.COLS; col++) {
 					this.board[row * GameBoard.COLS + col] = gBoard.getBoard()[row][col] != null ? gBoard.getBoard()[row][col].getValue() : 0;
@@ -111,34 +113,34 @@ public class ScoreManager {
 		}
 	}
         public void shuffle(){
-                        int[] shuf=new int[16];
-            		for (int row = 0; row < GameBoard.ROWS; row++) {
-				for (int col = 0; col < GameBoard.COLS; col++) {
-					this.board[row * GameBoard.COLS + col] = gBoard.getBoard()[row][col] != null ? gBoard.getBoard()[row][col].getValue() : 0;
-                                        shuf[row*GameBoard.COLS+col]=board[row * GameBoard.COLS + col];
+            int[] shuf=new int[16];
+    		for (int row = 0; row < GameBoard.ROWS; row++) {
+    			for (int col = 0; col < GameBoard.COLS; col++) {
+    				this.board[row * GameBoard.COLS + col] = gBoard.getBoard()[row][col] != null ? gBoard.getBoard()[row][col].getValue() : 0;
+                	shuf[row*GameBoard.COLS+col]=board[row * GameBoard.COLS + col];
 				}
 			}
-                        for (int i = 0; i < board.length; i++) {
-                                Random rand=new Random();
-                                while(shuf[i]==0&&i!=15){
-                                        i++;
-                                }
-                                if(shuf[i]==0&&i==15){
-                                        break;
-                                }
-                                int ran=rand.nextInt(16);
-                                while(shuf[ran]==0){
-                                        ran=rand.nextInt(16);
-                                }
-                                int temp=shuf[ran];
-                                shuf[ran]=shuf[i];
-                                shuf[i]=temp;
-			}
-                        System.out.print("SHUF!");
-                        for(int i=0;i<board.length;i++){
-                                if(getBoard()[i] == 0) continue;
-                                gBoard.spawn(i / GameBoard.ROWS, i % GameBoard.COLS, shuf[i]);
-                        }
+            for (int i = 0; i < board.length; i++) {
+                Random rand=new Random();
+                while(shuf[i]==0&&i!=15){
+                        i++;
+                }
+                if(shuf[i]==0&&i==15){
+                        break;
+                }
+                int ran=rand.nextInt(16);
+                while(shuf[ran]==0){
+                    ran=rand.nextInt(16);
+                }
+                int temp=shuf[ran];
+                shuf[ran]=shuf[i];
+                shuf[i]=temp;
+        	}
+            System.out.print("SHUF!");
+            for(int i=0;i<board.length;i++){
+                if(getBoard()[i] == 0) continue;
+                gBoard.spawn(i / GameBoard.ROWS, i % GameBoard.COLS, shuf[i]);
+            }
         }
 	public void loadGame() {
 		try {
@@ -168,6 +170,7 @@ public class ScoreManager {
 	}
 
 	public void setCurrentScore(int currentScore) {
+		stackScore = this.currentScore ;
 		this.currentScore = currentScore;
 	}
 
@@ -203,11 +206,15 @@ public class ScoreManager {
 		return board;
 	}
         
-        public static long getDifficulty() {
-                return difficulty;
-        }   
+    public static long getDifficulty() {
+            return difficulty;
+    }   
 
-        public static void setDifficulty(long difficulty) {
-                ScoreManager.difficulty = difficulty;
-        }
+    public static void setDifficulty(long difficulty) {
+            ScoreManager.difficulty = difficulty;
+    }
+    
+    public void undo() {
+    	currentScore = stackScore ;
+    }
 }

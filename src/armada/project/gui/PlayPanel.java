@@ -38,11 +38,16 @@ public class PlayPanel extends GuiPanel {
 	private int alpha = 0;
 	private Font gameOverFont;
 	private boolean screenshot;
-        boolean newGame;
+    boolean Undo;
+    boolean allClear;
+    boolean newGame;
+    boolean stopGame;
 
     public static final int Y = 90;  
     public static final int WIDTH = 85;        
     public static final int HEIGHT = 55;
+    private int U = 3;        
+    private int C = 1;
     
 	public PlayPanel() 
         {
@@ -53,25 +58,29 @@ public class PlayPanel extends GuiPanel {
 		clear = new GuiButton(145, Y, WIDTH, HEIGHT) ;
 		restart = new GuiButton(260, Y, WIDTH, HEIGHT) ;
 		menu = new GuiButton(375, Y, WIDTH, HEIGHT) ;
-		undo.setText("Undo");
-		clear.setText("Clear");
+		undo.setText("Undo : " + U);
+		clear.setText("Clear : " + C);
 		restart.setText("Restart");
 		menu.setText("Menu");
 		undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Undo=true ;
 			}
 		});
 		clear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				allClear = true ;
 			}
 		});
 		restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+	            newGame=true;
 			}
 		});
 		menu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	            newGame=true;
+				stopGame = true ;
+				scores.saveGame() ;
 	            GuiScreen.getInstance().setCurrentPanel("Menu");
 			}
 		});
@@ -136,7 +145,10 @@ public class PlayPanel extends GuiPanel {
                     newGame=true;
                     MainMenuPanel.diff=false;
                 }
+                undo() ;
+                clear() ;
                 newGame();
+                stopGame();
 		if (board.isDead()) {
 			alpha++;
 			if (alpha > 170) alpha = 170;
@@ -176,17 +188,43 @@ public class PlayPanel extends GuiPanel {
             	}
 		super.render(g);
 	}
+		public void undo(){
+			if(Undo && 0 < U) {
+				board.undo() ;
+				scores.undo() ;
+				U -= 1 ;
+				undo.setText("Undo : " + U);
+			}
+			Undo=false;
+		}
+		public void clear(){
+			if(allClear && 0 < C) {
+				board.clear() ;
+				C -= 1 ;
+				clear.setText("Clear : " + C);
+				allClear=false;
+			}
+		}
         public void newGame(){
             if(!Keys.pressed[KeyEvent.VK_ESCAPE]&&Keys.prev[KeyEvent.VK_ESCAPE]||newGame){
-                    board.reset();
-                    scores.reset();
-                    if(added){
-                        remove(mainMenu);
-                        remove(screenShot);
-                        alpha=0;
-                        added=false;
-                    }
-                    newGame=false;
+            	U = 3 ;
+				undo.setText("Undo : " + U);
+            	C = 1 ;
+				clear.setText("Clear : " + C);
+                board.reset();
+                scores.reset();
+                if(added){
+                    remove(mainMenu);
+                    remove(screenShot);
+                    alpha=0;
+                    added=false;
+                }
+                newGame=false;
             }
+        }
+        public void stopGame(){
+        	if(stopGame) {
+        		stopGame = false ;
+        	}
         }
 }
