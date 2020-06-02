@@ -4,8 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
-import javax.swing.ImageIcon;
-
 import javazoom.jl.player.Player;
 
 public class Music extends Thread {

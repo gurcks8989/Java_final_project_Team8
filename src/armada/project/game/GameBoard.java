@@ -33,7 +33,7 @@ public class GameBoard {
 	private static int SPACING = 10;
 	public static int BOARD_WIDTH = (COLS + 1) * SPACING + COLS * Tile.WIDTH;
 	public static int BOARD_HEIGHT = (ROWS + 1) * SPACING + ROWS * Tile.HEIGHT;
-    private static long time;
+    private static long time ;
     private long timeL;
 	private long elapsedMS;
 	private long startTime;
@@ -114,19 +114,7 @@ public class GameBoard {
 		}
 	}
 
-	public void update() {
-                if(MainMenuPanel.diff){
-                        time=getTime();
-                        ScoreManager.setDifficulty(time);
-                }
-                else{
-                    time=ScoreManager.getDifficulty();
-                }
-                if(scores.getTime()!=0&&scores.getTime()%time==0){
-                        scores.shuffle();                                    
-                        System.out.println("SHUF!");
-                }
-                    
+	public void update() {   
 		saveCount++;
 		if (saveCount >= 120) { 
 			saveCount = 0;

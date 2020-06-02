@@ -20,7 +20,6 @@ import armada.project.gui.GuiScreen;
 import armada.project.gui.LeaderboardsPanel;
 import armada.project.gui.MainMenuPanel;
 import armada.project.gui.PlayPanel;
-import armada.project.gui.DifficultyPanel;
 
 public class Game extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
@@ -43,7 +42,6 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 		screen = GuiScreen.getInstance();
 		screen.add("Menu", new MainMenuPanel());
 		screen.add("Play", new PlayPanel());
-                screen.add("Difficulty",new DifficultyPanel());
 		screen.add("Leaderboards", new LeaderboardsPanel());
 		screen.setCurrentPanel("Menu");
 

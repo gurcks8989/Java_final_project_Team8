@@ -40,7 +40,7 @@ public class PlayPanel extends GuiPanel {
 	private boolean screenshot;
     boolean Undo;
     boolean allClear;
-    boolean newGame;
+    private boolean newGame;
     boolean stopGame;
 
     public static final int Y = 90;  
@@ -140,15 +140,15 @@ public class PlayPanel extends GuiPanel {
 	@Override
 	public void update() {
 		board.update();
-                if(true==MainMenuPanel.diff)
-                {
-                    newGame=true;
-                    MainMenuPanel.diff=false;
-                }
-                undo() ;
-                clear() ;
-                newGame();
-                stopGame();
+		if(true==MainMenuPanel.reset)
+        {
+            newGame=true;
+            MainMenuPanel.reset=false;
+        }
+        undo() ;
+        clear() ;
+        newGame();
+        stopGame();
 		if (board.isDead()) {
 			alpha++;
 			if (alpha > 170) alpha = 170;
@@ -227,4 +227,5 @@ public class PlayPanel extends GuiPanel {
         		stopGame = false ;
         	}
         }
+
 }

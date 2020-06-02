@@ -157,7 +157,7 @@ public class ScoreManager {
 			time = Long.parseLong(reader.readLine());
 			startingTime = time;
 			bestTime = Long.parseLong(reader.readLine());
-                        difficulty=Long.parseLong(reader.readLine());
+            difficulty=Long.parseLong(reader.readLine());
 			String[] board = reader.readLine().split("-");
 			for (int i = 0; i < board.length; i++) {
 				this.board[i] = Integer.parseInt(board[i]);

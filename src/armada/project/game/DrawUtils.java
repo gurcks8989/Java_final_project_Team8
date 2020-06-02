@@ -21,7 +21,7 @@ public class DrawUtils {
 	
 	public static String formatTime(long millis) {
 		String formattedTime = "";
-                int hours = (int) (millis / 3600000);
+        int hours = (int) (millis / 3600000);
 		if (hours >= 1) {
 			millis -= hours * 3600000;
 			formattedTime += hours + ":";
