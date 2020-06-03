@@ -58,8 +58,8 @@ public class PlayPanel extends GuiPanel {
 		clear = new GuiButton(145, Y, WIDTH, HEIGHT) ;
 		restart = new GuiButton(260, Y, WIDTH, HEIGHT) ;
 		menu = new GuiButton(375, Y, WIDTH, HEIGHT) ;
-		undo.setText("Undo : " + U);
-		clear.setText("Clear : " + C);
+		undo.setText("Undo:" + U);
+		clear.setText("Clear:" + C);
 		restart.setText("Restart");
 		menu.setText("Menu");
 		undo.addActionListener(new ActionListener() {
@@ -80,7 +80,6 @@ public class PlayPanel extends GuiPanel {
 		menu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopGame = true ;
-				scores.saveGame() ;
 	            GuiScreen.getInstance().setCurrentPanel("Menu");
 			}
 		});
@@ -109,7 +108,7 @@ public class PlayPanel extends GuiPanel {
 		timeF = DrawUtils.formatTime(scores.getTime());
 		bestTimeF = DrawUtils.formatTime(scores.getBestTime());
 		
-                // Draw it
+        // Draw it
 		Graphics2D g2d = (Graphics2D) info.getGraphics();
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, info.getWidth(), info.getHeight());
@@ -117,11 +116,11 @@ public class PlayPanel extends GuiPanel {
 		g2d.setFont(scoreFont);
 		g2d.drawString("" + scores.getCurrentScore(), 30, 40);
 		g2d.setColor(Color.red);
-                g2d.drawString("Best: " + scores.getCurrentTopScore(), Game.WIDTH - DrawUtils.getMessageWidth("Best: " + scores.getCurrentTopScore(), scoreFont, g2d) - 20, 40);
-                g2d.drawString("Fastest: " + bestTimeF, Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 75);
+        g2d.drawString("Best: " + scores.getCurrentTopScore(), Game.WIDTH - DrawUtils.getMessageWidth("Best: " + scores.getCurrentTopScore(), scoreFont, g2d) - 20, 40);
+        g2d.drawString("Fastest: " + bestTimeF, Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 75);
 		g2d.setColor(Color.black);
 		
-                g2d.drawString("Time: " + timeF, 30, 75);
+        g2d.drawString("Time: " + timeF, 30, 75);
 		g2d.dispose();
 		g.drawImage(info, 0, 0, null);
 	}
@@ -130,11 +129,11 @@ public class PlayPanel extends GuiPanel {
 		g.setColor(new Color(222, 222, 222, alpha));
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		g.setColor(Color.red);
-                g.setFont(gameOverFont);
-		g.drawString("Game Over!", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Game Over!", gameOverFont, g) / 2, 250);
-                g.setColor(Color.black);
-                g.setFont(scoreFont);
-                g.drawString("Press ESC to Try Again", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Press ESC to Try Again", scoreFont, g) / 2, 325);
+        g.setFont(gameOverFont);
+    	g.drawString("Game Over!", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Game Over!", gameOverFont, g) / 2, 250);
+        g.setColor(Color.black);
+        g.setFont(scoreFont);
+        g.drawString("Press ESC to Try Again", Game.WIDTH / 2 - DrawUtils.getMessageWidth("Press ESC to Try Again", scoreFont, g) / 2, 325);
 	}
 
 	@Override
@@ -193,24 +192,25 @@ public class PlayPanel extends GuiPanel {
 				board.undo() ;
 				scores.undo() ;
 				U -= 1 ;
-				undo.setText("Undo : " + U);
+				undo.setText("Undo:" + U);
 			}
 			Undo=false;
 		}
 		public void clear(){
 			if(allClear && 0 < C) {
 				board.clear() ;
-				C -= 1 ;
-				clear.setText("Clear : " + C);
+				C = 0 ;
+				clear.setText("Clear:" + C);
 				allClear=false;
 			}
 		}
         public void newGame(){
             if(!Keys.pressed[KeyEvent.VK_ESCAPE]&&Keys.prev[KeyEvent.VK_ESCAPE]||newGame){
             	U = 3 ;
-				undo.setText("Undo : " + U);
+				undo.setText("Undo:" + U);
             	C = 1 ;
-				clear.setText("Clear : " + C);
+				clear.setText("Clear:" + C);
+				
                 board.reset();
                 scores.reset();
                 if(added){
@@ -224,8 +224,13 @@ public class PlayPanel extends GuiPanel {
         }
         public void stopGame(){
         	if(stopGame) {
+        		//board.setStop(true);
+        		//scores.saveGame() ;
+        		//scores.stopTime();
         		stopGame = false ;
         	}
+
         }
+        
 
 }

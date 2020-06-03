@@ -13,7 +13,7 @@ public class Keys {
 			if(i == 1) prev[KeyEvent.VK_RIGHT] = pressed[KeyEvent.VK_RIGHT];
 			if(i == 2) prev[KeyEvent.VK_UP] = pressed[KeyEvent.VK_UP];
 			if(i == 3) prev[KeyEvent.VK_DOWN] = pressed[KeyEvent.VK_DOWN];
-                        if(i == 4) prev[KeyEvent.VK_ESCAPE]=pressed[KeyEvent.VK_ESCAPE];
+            if(i == 4) prev[KeyEvent.VK_ESCAPE]=pressed[KeyEvent.VK_ESCAPE];
 		}
 	}
 	

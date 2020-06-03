@@ -7,22 +7,27 @@ import java.awt.event.ActionEvent;
 
 import armada.project.game.DrawUtils;
 import armada.project.game.Game;
+import armada.project.game.GameBoard;
 import armada.project.game.ScoreManager;
 
 public class MainMenuPanel extends GuiPanel {
 
 	private Font titleFont = Game.main.deriveFont(50f);
 	private Font creatorFont = Game.main.deriveFont(24f);
+	private Font teamFont = Game.hangul.deriveFont(24f);
 	private String title = "Handong2048";
-	private String creator = "Made By Java Team8";
+	private String creator = "Made By";
+	private String team = "분위기 최고조" ;
 	private int buttonWidth = 220;
-        private ScoreManager scores;
-        private int a=310;
-        public static boolean reset=false;
-        public GuiButton Resume;
+    private ScoreManager scores ;
+    private GameBoard board ;
+    private int a=310;
+    public static boolean reset=false;
+    public GuiButton Resume;
 	public GuiButton playButton;	
-        public GuiButton scoresButton;
-        public GuiButton quitButton ;
+    public GuiButton scoresButton;
+    public GuiButton quitButton ;
+    
 	public MainMenuPanel() {
 		super(); 
         Resume=new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 220, buttonWidth, 60);
@@ -62,6 +67,8 @@ public class MainMenuPanel extends GuiPanel {
 		g.drawString(title, Game.WIDTH / 2 - DrawUtils.getMessageWidth(title, titleFont, g) / 2, 150);
 		g.setFont(creatorFont);
 		g.drawString(creator, 20, Game.HEIGHT - 10);
+		g.setFont(teamFont);
+		g.drawString(team, 120, Game.HEIGHT - 10);
 	}
         
 }

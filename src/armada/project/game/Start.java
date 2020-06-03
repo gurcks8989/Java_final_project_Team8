@@ -5,19 +5,20 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 public class Start {
 
 	public static void main(String[] args){
 		
 		//시작할때 사진--------------------------------------------------------------
-		JFrame f = new JFrame("메인윈도우") ;
+		JFrame f = new JFrame("MainWindow") ;
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setLocationRelativeTo(null) ;
 
 		JLabel l = new JLabel(); //프레임에 레이블 추가         
 		f.add(l);
 
-		File file= new File("seed/madeby.png");  //이미지 파일 경로 
+		File file= new File("seed/img/madeby.png");  //이미지 파일 경로 
 		BufferedImage m;         
 
 		try {   
@@ -29,9 +30,10 @@ public class Start {
 		
 		f.setVisible(true);
 		f.pack(); //프레임의 크기를 자동으로 설정해줍니다.
+		
 		//--------------------------------------------------------------------------
 		Game game = new Game();
-		JFrame window = new JFrame("2048");
+		JFrame window = new JFrame("Handong2048");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.add(game);
@@ -40,7 +42,7 @@ public class Start {
 		window.setVisible(true);
 		game.start();
 		
-		Music music = new Music("music.mp3",true);
+		Music music = new Music("NaViBoBatTtaWoo.mp3",true);
 		music.start();
 	}
 }

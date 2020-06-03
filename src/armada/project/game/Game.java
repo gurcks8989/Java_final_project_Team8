@@ -3,8 +3,10 @@ package armada.project.game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -26,7 +30,8 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 	private static final long serialVersionUID = 1L;
 	public static final int WIDTH = GameBoard.BOARD_WIDTH + 40;
 	public static final int HEIGHT = 630;
-	public static final Font main = new Font("Bebas Neue Regular", Font.PLAIN, 28);
+	public static final Font main = new Font("Comic Sans MS", Font.PLAIN, 28);
+	public static Font hangul ;
 	private Thread game;
 	private boolean running;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -34,6 +39,15 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
     private GameBoard board ;
    
 	public Game() {
+
+		try{
+			hangul = Font.createFont(Font.TRUETYPE_FONT, new File("seed/font/SangSangFlowerRoad.otf")).deriveFont(30f);	
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("seed/font/SangSangFlowerRoad.otf")));
+		}
+		catch(IOException | FontFormatException e){
+		}		
+		
 		setFocusable(true);
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		addKeyListener(this);
@@ -110,8 +124,8 @@ public class Game extends JPanel implements Runnable, KeyListener, MouseListener
 			// FPS timer
 			if (System.currentTimeMillis() - fpsTimer > 1000) {
 				System.out.printf("%d fps %d updates", fps, updates);
-                                System.out.println(" "+GameBoard.getTime());
-                                fps = 0;
+                System.out.println(" "+GameBoard.getTime());
+                fps = 0;
 				updates = 0;
 				fpsTimer += 1000;
 			}

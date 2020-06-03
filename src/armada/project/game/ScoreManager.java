@@ -15,8 +15,8 @@ public class ScoreManager {
 	private int stackScore3;
 	
 	private int currentTopScore;
-    public static long difficulty;
-	private long time;
+	private long time = 0;
+	private long stackTime = 0;
 	private long startingTime;
 	private long bestTime;
 	private int[] board = new int[16];
@@ -96,12 +96,9 @@ public class ScoreManager {
 			writer.write("" + currentTopScore);
 			writer.newLine();
 			writer.write("" + time);
-			time = 0 ;
 			writer.newLine();
 			writer.write("" + bestTime);
 			writer.newLine();
-            writer.write(""+ difficulty);
-            writer.newLine();
 			for (int row = 0; row < GameBoard.ROWS; row++) {
 				for (int col = 0; col < GameBoard.COLS; col++) {
 					this.board[row * GameBoard.COLS + col] = gBoard.getBoard()[row][col] != null ? gBoard.getBoard()[row][col].getValue() : 0;
@@ -156,8 +153,11 @@ public class ScoreManager {
 			currentTopScore = Integer.parseInt(reader.readLine());
 			time = Long.parseLong(reader.readLine());
 			startingTime = time;
+			if(stackTime != 0) {
+				time = stackTime ;
+				stackTime = 0 ;
+			}
 			bestTime = Long.parseLong(reader.readLine());
-            difficulty=Long.parseLong(reader.readLine());
 			String[] board = reader.readLine().split("-");
 			for (int i = 0; i < board.length; i++) {
 				this.board[i] = Integer.parseInt(board[i]);
@@ -210,18 +210,19 @@ public class ScoreManager {
 	public int[] getBoard() {
 		return board;
 	}
-        
-    public static long getDifficulty() {
-            return difficulty;
-    }   
-
-    public static void setDifficulty(long difficulty) {
-            ScoreManager.difficulty = difficulty;
-    }
-    
+	
     public void undo() {
     	currentScore = stackScore ;
     	stackScore = stackScore2;
     	stackScore2 = stackScore3;
+    }
+    
+    public void stopTime() {
+    	stackTime = time ;
+    }
+    
+    public void reTime() {
+    	time = stackTime ;
+    	gBoard.setStop(false) ;
     }
 }

@@ -36,12 +36,13 @@ public class GameBoard {
     private static long time ;
     private long timeL;
 	private long elapsedMS;
-	private long startTime;
+	private long stackTime = 0;
+	private static long startTime;
 	private boolean hasStarted;
+	private boolean stop = false;
         
 	private ScoreManager scores;
 	private Leaderboards lBoard;
-    private int max = 0;
 	private int saveCount = 0;
 
 	public GameBoard(int x, int y) {
@@ -60,6 +61,7 @@ public class GameBoard {
 		scores.loadGame();
 		scores.setBestTime(lBoard.getFastestTime());
 		scores.setCurrentTopScore(lBoard.getHighScore());
+		
 		if(scores.newGame()){
 			start() ;
 			scores.saveGame() ;
@@ -122,9 +124,13 @@ public class GameBoard {
 		}
 		if (!dead) {
 			if (hasStarted) {
-				elapsedMS = (System.nanoTime() - startTime) / 1000000;
-                                scores.setTime(elapsedMS);
-                                
+				elapsedMS = ((System.nanoTime() - startTime) / 1000000 )- stackTime ;				
+				if(stop) {
+					stackTime = elapsedMS - scores.getTime() ;
+				}
+				else {
+	                scores.setTime(elapsedMS);
+				}
 			}
 			else {
 				startTime = System.nanoTime();
@@ -251,8 +257,6 @@ public class GameBoard {
 				board[newRow][newCol].setCombineAnimation(true);
 
 				int value = board[newRow][newCol].getValue() ;
-				if(max < value)
-					max = value ;
 				scores.setCurrentScore(scores.getCurrentScore() + value);
 			}
 			else {
@@ -471,7 +475,11 @@ public class GameBoard {
 	public static void setTime(long time) {
 	    GameBoard.time = time;
 	}
-        
+    
+	public static long getStartTime() {
+	    return startTime;
+	}
+	
 	public boolean isWon() {
 		return won;
 	}
@@ -487,24 +495,27 @@ public class GameBoard {
 	public ScoreManager getScores(){
 		return scores;
 	}
+	
+	public void setStop(boolean stop) {
+		this.stop = stop ;
+	}
+	
+	public boolean getStop() {
+		return stop ;
+	}
  
 	public void undo() {
-		int max = 0 ;
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				board[row][col] = stack[row][col];
 				stack[row][col] = stack2[row][col];
 				stack2[row][col] = stack3[row][col];
-				if(board[row][col] == null) continue;
-				int value = board[row][col].getValue() ;
-				if(max < value)
-					max = value ;
 			}
 		}
-		this.max = max ;
 	}
 	
 	public void clear() {
+		int max = getHighestTileValue() ;
 		for (int row = 0; row < ROWS; row++) {
 			for (int col = 0; col < COLS; col++) {
 				if(board[row][col] == null) continue;
