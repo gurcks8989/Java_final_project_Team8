@@ -115,7 +115,7 @@ public class Tile {
 		else if (value == 1024)
 			background = new ImageIcon("seed/img/President.png").getImage();
 		else if (value == 2048)
-			background = new ImageIcon("seed/img/HandongLogo.png").getImage();
+			background = new ImageIcon("seed/img/Handong.png").getImage();
 		else if(value == 0)
 			background = new ImageIcon("seed/img/begin.png").getImage();
 		else
